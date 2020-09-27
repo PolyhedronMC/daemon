@@ -4,25 +4,12 @@ import (
 	"github.com/spf13/viper"
 )
 
+
 // DaemonConfig Wrapper struct around daemon configuration.
 type DaemonConfig struct {
 	Docker DockerConfig
 	Database DatabaseConfig
-}
-
-// DockerConfig Wrapper struct around Docker engine configuration.
-type DockerConfig struct {
-	Host string
-	Port int
-}
-
-// DatabaseConfig Wrapper struct around postgres configuration.
-type DatabaseConfig struct {
-	Host string
-	Port int
-	User string
-	Password string
-	Database string
+	API APIConfig
 }
 
 // GetConfig Create and read the configuration file.
@@ -42,6 +29,9 @@ func GetConfig() DaemonConfig {
 	viper.SetDefault("postgres.user", "postgres")
 	viper.SetDefault("postgres.password", "")
 	viper.SetDefault("postgres.database", "polyhedron")
+
+	// API configuration
+	viper.SetDefault("api.port", 8080)
 
 	if err := viper.ReadInConfig(); err != nil {
 		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
@@ -65,6 +55,9 @@ func GetConfig() DaemonConfig {
 			User: viper.GetString("postgres.user"),
 			Password: viper.GetString("postgres.password"),
 			Database: viper.GetString("postgres.database"),
+		},
+		API: APIConfig {
+			Port: viper.GetInt("api.port"),
 		},
 	}
 }

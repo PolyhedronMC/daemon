@@ -1,6 +1,7 @@
 package api
  
 import (
+	"fmt"
 	"github.com/polyhedronmc/daemon/config"
 	"go.uber.org/zap/zapcore"
 	"go.uber.org/zap"
@@ -49,6 +50,6 @@ func Create(config config.DaemonConfig) DaemonServer {
 func (s DaemonServer) Listen() {
 	s.router.Use(createLogMiddleware(s))
 	s.Log.Info("Starting HTTP server on port 8080")
-	s.Log.Fatal(http.ListenAndServe(":8080", s.router))
+	s.Log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", s.Config.API.Port), s.router))
 }
 
