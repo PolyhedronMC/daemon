@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/go-pg/pg"
 	"github.com/polyhedronmc/daemon/config"
 )
@@ -15,6 +16,7 @@ var db Database;
 // Connect Connect to PostgreSQL.
 func Connect(config config.DatabaseConfig) Database {
 	postgres := pg.Connect(&pg.Options{
+		Addr: fmt.Sprintf("%s:%d", config.Host, config.Port),
 		User:     config.User,
 		Password: config.Password,
 		Database: config.Database,

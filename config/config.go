@@ -38,7 +38,7 @@ func GetConfig() DaemonConfig {
 
 	// PostgreSQL configuration
 	viper.SetDefault("postgres.host", "localhost")
-	viper.SetDefault("postgres.port", 54321)
+	viper.SetDefault("postgres.port", 5432)
 	viper.SetDefault("postgres.user", "postgres")
 	viper.SetDefault("postgres.password", "")
 	viper.SetDefault("postgres.database", "polyhedron")
