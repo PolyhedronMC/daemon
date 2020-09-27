@@ -40,8 +40,13 @@ func Create(config config.DaemonConfig) Daemon {
 
 // Start Start this deamon instance.
 func (d *Daemon) Start() {
-	version := docker.DetectDocker(d.Config)
+	docker.SetupClient()
+
+	version := docker.GetVersion()
 	d.Log.Infof("Docker %s", version)
-	d.Log.Info("Connecting to PostgreSQL...")
+	d.Log.Info("Connecting to PostgreSQL")
 	database.Connect(d.Config.Database)
+
+	monitor := d.CreateMonitor("gay")
+	monitor.Start()
 }
